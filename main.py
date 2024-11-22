@@ -4,8 +4,12 @@ import numpy as np
 import torch
 from util import classify, set_background
 import torchvision
+from torchvision.models import efficientnet_b0
+import os
 
-set_background('/Users/leoun22/Desktop/Medvation web2.png')
+bg_path = os.path.join(os.path.dirname(__file__), 'Medvation web2.png')
+
+set_background(bg_path)
 
 # set title
 st.title('Kidney Stone classification')
@@ -17,11 +21,13 @@ st.header('Please upload an image')
 file = st.file_uploader('', type=['jpeg', 'jpg', 'png'])
 
 # load classifier
-from torchvision.models import efficientnet_b0
+
+
+model_path = os.path.join(os.path.dirname(__file__), 'models', 'kidney_stone_model.pth')
 
 # Load the model (Ensure the architecture matches the training process)
 model = efficientnet_b0(pretrained=False)
-model = torch.load('/Users/leoun22/Desktop/kidney_stone_model.pth', map_location=torch.device('cpu'))
+model = torch.load(model_path, map_location=torch.device('cpu'))
 model.eval()  # Set the model to evaluation mode
 
 
